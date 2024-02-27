@@ -1,6 +1,8 @@
 import keras
 from keras import Sequential, layers, activations
 import tensorflow as tf
+import xgboost as xgb
+from sklearn.metrics import classification_report
 
 def create_model(input_shape):
     input_shape = (input_shape,)
@@ -22,7 +24,7 @@ def create_model(input_shape):
                 metrics="binary_accuracy")
     return model
 
-def train_model(model, X_train, X_val, y_train, y_val, verbose=1):
+def train_dl_model(model, X_train, X_val, y_train, y_val, verbose=1):
     X_train = tf.convert_to_tensor(X_train)
     X_val= tf.convert_to_tensor(X_val)
 
@@ -40,3 +42,11 @@ def train_model(model, X_train, X_val, y_train, y_val, verbose=1):
                 verbose=verbose)
     
     return model_res
+
+def train_xgb(X_train, X_val, y_train, y_val, verbose=1):
+    clf = xgb.XGBClassifier()
+    clf.fit(X_train, y_train)
+    pred = clf.predict(X_val)
+    if verbose:
+        print(classification_report(y_val,pred))
+    return clf

@@ -1,4 +1,5 @@
 {
     "output_dir":"./",
-    "valided_tsv":"./"
+    "valided_tsv":"./",
+    "data_dir":"./"
 }

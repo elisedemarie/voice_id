@@ -2,9 +2,11 @@ from . import util
 from . import preprocess
 from . import engineer
 from . import classify
+from . import evaluate
 import pandas as pd
+import keras
 
-def run():
+def prepare():
 
     ## load data
     config = util.loadConfig()
@@ -33,7 +35,7 @@ def run():
     test_normalised = preprocess.normalise(test_content[0], train_mean, train_std)
     # save noramlised constanted
     util.saveObject((train_mean, train_std), "normalise_objects.pkl")
-    
+
     ## encode labels
     y_train_encoded = [0 if y=="male" else 1 for y in train_content[1]]
     y_val_encoded = [0 if y=="male" else 1 for y in val_content[1]]
@@ -43,13 +45,53 @@ def run():
     all_data = (train_normalised, val_normalised, test_normalised, y_train_encoded, y_val_encoded, y_test_encoded)
     util.saveObject(all_data, "all_data.pkl")
 
+    return
 
-    ## train
-    model = classify.create_model(train_normalised.shape[1])
-    model_res = classify.train_model(model, train_normalised, val_normalised, 
-                                     y_train_encoded, y_val_encoded)
-    # save the model and results
-    model.save(config["output_dir"])
-    util.saveObject(model_res, "training_results.pkl")
 
-    ## predict
+def train(clf="xgb"):
+    config = util.loadConfig()
+
+    # load data for trianing
+    X_train, X_val, _, y_train, y_val, _ = util.loadObject("all_data")
+
+    if clf == "dl":
+        ## train
+        model = classify.create_model(X_train.shape[1])
+        model_res = classify.train_dl_model(model, X_train, X_val, 
+                                        y_train, y_val)
+        # save the model and results
+        model.save(config["output_dir"])
+        util.saveObject(model_res, "dl_training_results.pkl")
+
+    elif clf == "xgb":
+        #train
+        clf = classify.train_xgb(X_train, X_val, y_train, y_val, verbose=1)
+        # save output
+        util.saveObject(clf, "xgb_model.pkl")
+    
+    return
+
+
+def evaluate(set="val", model="xgb"):
+    config = util.loadConfig()
+    _, X_val, X_test, _, y_val, y_test = util.loadObject("all_data.pkl")
+    _, val_content, test_content = util.loadObject("engineered_output.pkl")
+
+    # get the correct object
+    if set == "test":
+        X = X_test
+        y = y_test
+        users = test_content[3]
+    else:
+        X = X_val
+        y = y_val
+        users = val_content[3]
+    
+    if model=="dl":
+        model = keras.models.load_model(config["output_dir"])
+    else:
+        model = util.loadObject("xgb_model.pkl")
+
+    report = evaluate.evaluate(X, y, model, users)
+    print(report)
+
