@@ -10,7 +10,7 @@ def prepare():
 
     ## load data
     config = util.loadConfig()
-    data = pd.read_csv(config["valided_tsv"])
+    data = pd.read_table(config["valided_tsv"])
     # select relevant columns
     data = data[["client_id", "path", "gender"]]
 
@@ -23,9 +23,10 @@ def prepare():
     test_path, test_gender = output[2]
 
     ## feature engineer
-    train_content = engineer.get_xy(train_path, train_gender)
-    val_content = engineer.get_xy(val_path, val_gender)
-    test_content = engineer.get_xy(test_path, test_gender)
+    n_samples = 50
+    train_content = engineer.get_xy(train_path, train_gender, n_samples)
+    val_content = engineer.get_xy(val_path, val_gender, n_samples)
+    test_content = engineer.get_xy(test_path, test_gender, n_samples)
     engineered_output = (train_content, val_content, test_content)
     util.saveObject(engineered_output, "engineered_output.pkl")
 
@@ -52,7 +53,7 @@ def train(clf="xgb"):
     config = util.loadConfig()
 
     # load data for trianing
-    X_train, X_val, _, y_train, y_val, _ = util.loadObject("all_data")
+    X_train, X_val, _, y_train, y_val, _ = util.loadObject("all_data.pkl")
 
     if clf == "dl":
         ## train
@@ -72,7 +73,7 @@ def train(clf="xgb"):
     return
 
 
-def evaluate(set="val", model="xgb"):
+def eval(set="val", model="xgb"):
     config = util.loadConfig()
     _, X_val, X_test, _, y_val, y_test = util.loadObject("all_data.pkl")
     _, val_content, test_content = util.loadObject("engineered_output.pkl")
@@ -92,6 +93,8 @@ def evaluate(set="val", model="xgb"):
     else:
         model = util.loadObject("xgb_model.pkl")
 
-    report = evaluate.evaluate(X, y, model, users)
+    report, user_data = evaluate.evaluate(X, y, model, users)
+    util.saveObject((report, user_data), "eval_results.pkl")
+    
     print(report)
 

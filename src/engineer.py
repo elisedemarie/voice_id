@@ -71,7 +71,7 @@ def get_xy(x_values, y_values, n_samples=None):
     labels = []
     times = []
     users = []
-    dir = util.getConfig()["data_dir"]
+    dir = util.loadConfig()["data_dir"]
     # iterate through values
     for i, p in enumerate(x_values[:n_samples]):
         try:

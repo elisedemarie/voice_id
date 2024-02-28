@@ -1,3 +1,5 @@
 from src import pipeline
 
-pipeline.run()
+# pipeline.prepare()
+# pipeline.train("xgb")
+pipeline.eval('val')
