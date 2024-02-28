@@ -4,9 +4,10 @@
 ## Purpose
 This project makes use of the Mozilla Common Voice public dataset. The project aims to be a lightweight approach to processing voice data, building relevant features, and making predictions about the speaker's self-reported gender and age. 
 
-Currently the project predicts the self-reported gender of the speaker. The best validation results are an f1-score of 0.94 and accuracy of 0.96.
+Currently the project predicts the self-reported gender of the speaker. The best validation results are an f1-score of 0.98 and accuracy of 0.99.
 
-![Screen Shot 2024-02-28 at 1 19 54 pm](https://github.com/elisedemarie/voice_id/assets/135685125/9a07bbde-9ce2-4c6d-bb4e-a6f0dd223767)
+![Screen Shot 2024-02-28 at 1 30 36 pm](https://github.com/elisedemarie/voice_id/assets/135685125/a0cd8a6b-da50-4836-b14c-675d546fdd7f)
+
 
 
 ## How it Works
@@ -29,7 +30,7 @@ Before running, also update the "output_dir" to your desired output for the pipe
 Once all locations have been updated in the config.json file you can run the first step. To only run this step run the command `python3 main.py prepare`
 
 ## 2. Training the Model
-Once the data has been prepared you can train the model. Ensure that the directories in the config.json are correct. There are two models available for training. The first is an XGBoost Classifier, the second a Multi-Layer Perceptron. To run the XGB model use the command `python3 main.py train -xgb`. To run the MLP use the command `python3 main.py train -mlp`. 
+Once the data has been prepared you can train the model. Ensure that the directories in the config.json are correct. There are two models available for training. The first is an XGBoost Classifier, the second a 1D CNN. To run the XGB model use the command `python3 main.py train -xgb`. To run the MLP use the command `python3 main.py train -cnn`. 
 
 The output of training will save the models and print the result. **NOTE** This result is only the performance of the model on individual segments. The pooled results are shown in evaluation.
 
