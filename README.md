@@ -4,6 +4,10 @@
 ## Purpose
 This project makes use of the Mozilla Common Voice public dataset. The project aims to be a lightweight approach to processing voice data, building relevant features, and making predictions about the speaker's self-reported gender and age. 
 
+Currently the project predicts the self-reported gender of the speaker. The best validation results are an f1-score of 0.94 and accuracy of 0.96.
+
+![Screen Shot 2024-02-28 at 1 19 54 pm](https://github.com/elisedemarie/voice_id/assets/135685125/9a07bbde-9ce2-4c6d-bb4e-a6f0dd223767)
+
 
 ## How it Works
 This project makes use of signal processing to engineer features from the raw signal data. The model processes several features of sound analysis relevant to vocal characteristics and creates a feature set for each sound across the signal. This signal is then broken up into small windows. Each window's individual features are pooled across the window. The final result outputs the min, max, and mean of each feature for each window. 
