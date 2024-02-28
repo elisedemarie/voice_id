@@ -23,7 +23,7 @@ def prepare():
     test_path, test_gender = output[2]
 
     ## feature engineer
-    n_samples = 50
+    n_samples = None
     train_content = engineer.get_xy(train_path, train_gender, n_samples)
     val_content = engineer.get_xy(val_path, val_gender, n_samples)
     test_content = engineer.get_xy(test_path, test_gender, n_samples)
@@ -55,14 +55,14 @@ def train(clf="xgb"):
     # load data for trianing
     X_train, X_val, _, y_train, y_val, _ = util.loadObject("all_data.pkl")
 
-    if clf == "dl":
+    if clf == "cnn":
         ## train
         model = classify.create_model(X_train.shape[1])
         model_res = classify.train_dl_model(model, X_train, X_val, 
                                         y_train, y_val)
         # save the model and results
         model.save(config["output_dir"])
-        util.saveObject(model_res, "dl_training_results.pkl")
+        util.saveObject(model_res, "cnn_training_results.pkl")
 
     elif clf == "xgb":
         #train
@@ -88,13 +88,13 @@ def eval(set="val", model="xgb"):
         y = y_val
         users = val_content[3]
     
-    if model=="dl":
+    if model=="cnn":
         model = keras.models.load_model(config["output_dir"])
     else:
         model = util.loadObject("xgb_model.pkl")
 
-    report, user_data = evaluate.evaluate(X, y, model, users)
+    report, user_data = evaluate.evaluate(X, y, model, users, 0.75)
     util.saveObject((report, user_data), "eval_results.pkl")
-    
+    print("\n"*3)
     print(report)
 
