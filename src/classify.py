@@ -7,7 +7,7 @@ from keras.callbacks import EarlyStopping
 
 def create_model(input_shape):
     input_shape = (int(input_shape/3),3,)
-    dr = 0.1
+    dr = 0.05
     model = Sequential()    
     model.add(layers.Conv1D(3, 8))
     model.add(layers.Dropout(rate=dr))
@@ -18,14 +18,16 @@ def create_model(input_shape):
     model.add(layers.Conv1D(32, 4))
     model.add(layers.Dropout(rate=dr))
     model.add(layers.Conv1D(16, 4))
+
     model.add(layers.GlobalMaxPooling1D())
+
     model.add(layers.Dense(128, input_shape=input_shape, activation="relu"))
     model.add(layers.Dropout(rate=dr))
     model.add(layers.Dense(256, activation="relu"))
     model.add(layers.Dropout(rate=dr))
     # model.add(layers.Dense(64, activation="relu"))
     # model.add(layers.Dropout(rate=dr))
-    model.add(layers.Dense(64, activation="relu"))
+    model.add(layers.Dense(32, activation="relu"))
     model.add(layers.Dropout(rate=dr))
     model.add(layers.Dense(2, activation="softmax"))
 
@@ -49,7 +51,7 @@ def train_dl_model(model, X_train, X_val, y_train, y_val, verbose=1):
 
     model_res= model.fit(X_train, y_train_binary, 
                 validation_data=[X_val, y_val_binary],
-                batch_size=16, 
+                batch_size=64, 
                 epochs=20,
                 shuffle=True,
                 verbose=verbose,

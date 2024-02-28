@@ -59,7 +59,7 @@ def train(clf="xgb"):
         ## train
         model = classify.create_model(X_train.shape[1])
         model_res = classify.train_dl_model(model, X_train, X_val, 
-                                        y_train, y_val)
+                                        y_train, y_val, 2)
         # save the model and results
         model.save(config["output_dir"])
         util.saveObject(model_res, "cnn_training_results.pkl")
