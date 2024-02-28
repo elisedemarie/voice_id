@@ -29,13 +29,13 @@ Before running, also update the "output_dir" to your desired output for the pipe
 
 Once all locations have been updated in the config.json file you can run the first step. To only run this step run the command `python3 main.py prepare`
 
-## 2. Training the Model
+### 2. Training the Model
 Once the data has been prepared you can train the model. Ensure that the directories in the config.json are correct. There are two models available for training. The first is an XGBoost Classifier, the second a 1D CNN. To run the XGB model use the command `python3 main.py train -xgb`. To run the MLP use the command `python3 main.py train -cnn`. 
 
 The output of training will save the models and print the result. **NOTE** This result is only the performance of the model on individual segments. The pooled results are shown in evaluation.
 
-## 3. Evaluating
-To evaluate the model, ensure all directories in config.json are correct then select which set to evaluate on. If you want to evaluate on the validation set use the command `python3 main.py eval -val`. If you want to evaluate on the testing set use the command `python3 main.py eval -test`. 
+### 3. Evaluating
+To evaluate the model, ensure all directories in config.json are correct then select which set to evaluate on. If you want to evaluate on the validation set use the command `python3 main.py eval -val -<MODEL>` where MODEL is the model type you have trained and want to evaluate (either `-xgb` or `-cnn`). If you want to evaluate on the testing set use the command `python3 main.py eval -test -<MODEL>`. 
 
 Evaluation results are output as a classification report. The 0 class represents male self-reported voices and the 1 class female. These results are the majority prediction of the segments for each mp3 file.
 
