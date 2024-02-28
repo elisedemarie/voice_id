@@ -4,7 +4,7 @@
 ## Purpose
 This project makes use of the Mozilla Common Voice public dataset. The project aims to be a lightweight approach to processing voice data, building relevant features, and making predictions about the speaker's self-reported gender and age. 
 
-Currently the project predicts the self-reported gender of the speaker. The best validation results are an f1-score of 0.98 and accuracy of 0.99.
+Currently, the project predicts the self-reported gender of the speaker. The best validation results are an f1-score of 0.98 and an accuracy of 0.99.
 
 ![Screen Shot 2024-02-28 at 1 30 36 pm](https://github.com/elisedemarie/voice_id/assets/135685125/a0cd8a6b-da50-4836-b14c-675d546fdd7f)
 
@@ -37,6 +37,6 @@ The output of training will save the models and print the result. **NOTE** This 
 ### 3. Evaluating
 To evaluate the model, ensure all directories in config.json are correct then select which set to evaluate on. If you want to evaluate on the validation set use the command `python3 main.py eval -val -<MODEL>` where MODEL is the model type you have trained and want to evaluate (either `-xgb` or `-cnn`). If you want to evaluate on the testing set use the command `python3 main.py eval -test -<MODEL>`. 
 
-Evaluation results are output as a classification report. The 0 class represents male self-reported voices and the 1 class female. These results are the majority prediction of the segments for each mp3 file.
+Evaluation results are output as a classification report. The 0 class represents male self-reported voices and the 1 class, female. These results are the majority prediction of the segments for each mp3 file.
 
 
