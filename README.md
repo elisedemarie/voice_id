@@ -4,10 +4,14 @@
 ## Purpose
 This project makes use of the Mozilla Common Voice public dataset. The project aims to be a lightweight approach to processing voice data, building relevant features, and making predictions about the speaker's self-reported gender and age. 
 
+
 ## How it Works
 This project makes use of signal processing to engineer features from the raw signal data. The model processes several features of sound analysis relevant to vocal characteristics and creates a feature set for each sound across the signal. This signal is then broken up into small windows. Each window's individual features are pooled across the window. The final result outputs the min, max, and mean of each feature for each window. 
 
 The individual segments are then used to train a classifier that learns to make predictions. Once the model has been trained, predictions are made for every segment. For each original sound file, the majority prediction across the window is output as the prediction for that sound file.
+
+![voice_id_diagram drawio](https://github.com/elisedemarie/voice_id/assets/135685125/20ffc721-21ca-4148-b19d-716abe0852a7)
+
 
 ## How to Use
 The module for this project is broken up into several scripts but is easy to use. The main modifications users need make is to the config.json file. This file contains the links to the relevant directories and files for the project.
