@@ -10,8 +10,7 @@ This project makes use of signal processing to engineer features from the raw si
 
 The individual segments are then used to train a classifier that learns to make predictions. Once the model has been trained, predictions are made for every segment. For each original sound file, the majority prediction across the window is output as the prediction for that sound file.
 
-![voice_id_diagram drawio](https://github.com/elisedemarie/voice_id/assets/135685125/20ffc721-21ca-4148-b19d-716abe0852a7)
-
+![voice_id_diagram drawio (1)](https://github.com/elisedemarie/voice_id/assets/135685125/fcf91ef9-9954-4e20-a9a7-0303ed820da1)
 
 ## How to Use
 The module for this project is broken up into several scripts but is easy to use. The main modifications users need make is to the config.json file. This file contains the links to the relevant directories and files for the project.
