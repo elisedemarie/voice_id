@@ -2,8 +2,6 @@ from . import preprocess
 from . import util
 from . import engineer
 from sklearn.cluster import KMeans
-import tensorflow as tf
-import keras
 import pickle
 import numpy as np 
 import os
@@ -22,6 +20,8 @@ def predict_data(fp, model="xgb"):
     X = preprocess.normalise(X, train_mean, train_std)
 
     if model=="cnn":
+        import tensorflow as tf
+        import keras
         model = keras.models.load_model(config["output_dir"])
         X = tf.convert_to_tensor(X)
         pred = model.predict(X, verbose=0)

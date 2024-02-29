@@ -1,11 +1,12 @@
-import keras
-from keras import Sequential, layers, activations
-import tensorflow as tf
+
 import xgboost as xgb
 from sklearn.metrics import classification_report
 from keras.callbacks import EarlyStopping
 
 def create_model(input_shape):
+    import keras
+    from keras import Sequential, layers, activations
+    import tensorflow as tf
     input_shape = (int(input_shape/3),3,)
     dr = 0.05
     model = Sequential()    
@@ -38,6 +39,9 @@ def create_model(input_shape):
     return model
 
 def train_dl_model(model, X_train, X_val, y_train, y_val, verbose=1):
+    import keras
+    from keras import Sequential, layers, activations
+    import tensorflow as tf
     X_train = tf.convert_to_tensor(X_train.reshape(X_train.shape[0], int(X_train.shape[1]/3), 3))
     X_val= tf.convert_to_tensor(X_val.reshape(X_val.shape[0], int(X_val.shape[1]/3), 3))
 

@@ -4,7 +4,6 @@ from . import engineer
 from . import classify
 from . import evaluate
 import pandas as pd
-import keras
 
 def prepare():
 
@@ -56,6 +55,7 @@ def train(clf="xgb"):
     X_train, X_val, _, y_train, y_val, _ = util.loadObject("all_data.pkl")
 
     if clf == "cnn":
+        import keras
         ## train
         model = classify.create_model(X_train.shape[1])
         model_res = classify.train_dl_model(model, X_train, X_val, 
@@ -89,6 +89,7 @@ def eval(set="val", model="xgb"):
         users = val_content[3]
     
     if model=="cnn":
+        import keras
         model = keras.models.load_model(config["output_dir"])
     else:
         model = util.loadObject("xgb_model.pkl")
